@@ -1,0 +1,221 @@
+\documentclass[12pt,BCOR1mm,DIV18]{scrartcl}
+\usepackage{lscape}
+\usepackage{microtype}
+\usepackage{cite} % Make references as [1-4], not [1,2,3,4]
+\usepackage{url}  % Formatting web addresses  
+\usepackage[utf8]{inputenc} % Unicode support
+\usepackage{color,hyperref, booktabs}
+\urlstyle{rm}
+\newcommand{\cc}{\texttt}
+\newcommand{\note}[1]{{\color{red}#1}}
+%------------------------------------------------------------
+\begin{document}
+
+<<setup, include=TRUE, cache=FALSE, echo=FALSE, message=FALSE>>=
+## this is equivalent to \SweaveOpts{}
+opts_chunk$set(fig.path='figure/report-', cache.path='cache/report-', fig.align='center', fig.show='hold', par=TRUE)
+options(replace.assign=TRUE, width=68)
+library("arrayQualityMetrics") # QC
+library("ArrayExpress") # load the data from the internet
+library('hgu133plus2.db') # chip annotations
+library("gcrma")
+library("affyPLM") # boxplots
+library("pamr") # classification
+library("xtable") # tables
+@
+%------------------------------------------------------------
+\title{{\Large \bf Reproducible Research in High-Throughput Biology:\\ A Case Study}}
+\author{Paolo Sonego$^{1}$\\}
+
+\maketitle \thispagestyle{empty}
+\newcommand{\m}{\mbox{}}
+
+\begin{center}
+\noindent $^{1}${\small paolo.sonego@gmail.com}
+\end{center}
+
+\begin{abstract}
+% Do not use inserted blank lines (ie \\) until main body of text.
+
+\textbf{Aim of this Document:} Using the open source R, CRAN and Bioconductor, we want to verify the reproducibility of the paper "Reversal of gene expression changes in the colorectal normal-adenoma pathway by NS398 selective COX2 inhibitor, Galamb, O. and at. 2010  on the basis of the information and procedure depicted in the original manuscript.
+
+\textbf{Findings:} We decided to replicate the Class Prediction Analysis depicted in the manuscript. The authors taking advantage of the nearest shrunken centroid method (PAM) \cite{pamr} wanted to identify the gene expressions patterns (\emph{signatures}) of the contrasts \emph{adenoma vs normal biopsy samples} and \emph{colorectal cancer (CRC) vs normal biopsy samples}.
+On the basis of the information contained in the manuscript's Material and Methods, we were not capable to reproduce the \emph{exact} original results.
+
+\textbf{Conclusions:} This document combines the Literate Programming paradigm and the power of R and Bioconductor in providing an example of
+Reproducible Research in the analysis of high-throughput biological data.
+
+\end{abstract}
+
+%------------------------------------------------------------
+\section*{Introduction}
+The original aim of the paper \cite{galamb2010reversal} were to analyse the gene expression modulating effect 
+of NS398 selective COX2 inhibitor on the HT29 colon adenocarcinoma cell line and to correlate this effect 
+to the modulation in gene expression observed during normal-adenoma and normal-CRC transition when biopsy samples were analysed.
+
+%------------------------------------------------------------
+\section{Description of the data analysis}
+Fifty-three samples of total RNA extracted from cells obtained using biopsy in patients having colon adenoma, colorectal cancer, bowel disease  and healthy control were hybridized to Affymetrix HG U133 Plus 2.0 oligonucleotide arrays and are available from the Gene Expression Omnibus database (series accession numbers: \emph{GSE183}) or from the ArrayExpress database (series accession numbers: \emph{E-GEOD-4183}).
+
+We focused our attention on the classification tasks and, following the original Material and Methods from \cite{galamb2010reversal}, we used the nearest shrunken centroid method (PAM) \cite{pamr} in order to identify the Gene Expressions patterns (signatures) of the samples in the two contrast \emph{adenoma vs normal biopsy samples} and \emph{colorectal cancer (CRC) vs normal biopsy samples}.
+
+%------------------------------------------------------------
+\section{Loading microarray data into Bioconductor}
+The data used in this example can be downloaded from the ArrayExpress database and imported into R using the \cc{ArrayExpress} package by typing:
+
+<<eval=TRUE, hide=FALSE, cache=TRUE, message=FALSE>>=
+library("ArrayExpress")
+EGEOD4183.affybatch = ArrayExpress(accession = "E-GEOD-4183", save=TRUE)
+@
+
+\noindent A brief description of the \cc{EGEOD4183.affybatch} object can be obtained by using the 
+\cc{print(EGEOD4183.affybatch)} command:
+
+{\small\begin{verbatim}
+    AffyBatch object
+    size of arrays=1164x1164 features (67 kb)
+    cdf=HG-U133_Plus_2 (54675 affyids)
+    number of samples=53
+    number of genes=54675
+    annotation=hgu133plus2
+    notes=E-GEOD-4183
+    E-GEOD-4183
+    NA
+    c("unknown_experiment_design_type", "transcription profiling by array")
+\end{verbatim}}
+\noindent If the Affymetrix microarray data sets have been downloaded into a single directory, 
+then the \cc{.cel} files can be loaded into R using the \cc{ReadAffy} command.
+
+%------------------------------------------------------------
+\section{Pre-processing}
+
+%------------------------------------------------------------
+\subsection{Data Quality Assessment}
+The powerful and chip technology agnostic \cc{ArrayQualityMetrics} package can be used to check the quality of the data,  
+a mandatory step in every data analysis.
+The following code create a directory \cc{aQM} depicting all kind of Quality Control Metrics and
+a table highlighting bad quality experiments.
+
+<<eval=TRUE, cache=TRUE, results=FALSE, message=FALSE>>=
+library("arrayQualityMetrics")
+arrayQualityMetrics(expressionset = as(EGEOD4183.affybatch, "ExpressionSet"), outdir = "aQM", force = TRUE)
+@
+
+%------------------------------------------------------------
+\subsection{Data Normalisation}
+Following the Material and Methods of the original paper we used the GeneChip RMA (GCRMA) with quantile normalisation.
+
+<<eval=TRUE, cache=TRUE, results=FALSE, message=FALSE>>=
+library("gcrma")
+eset.rma = gcrma(EGEOD4183.affybatch)
+@
+
+\noindent The aim of the normalisation is to make the distribution of probe intensities for each array in a set of arrays the same. 
+We illustrate its effect by studying boxplots of the raw data against their normalised counterparts.
+
+<<boxplots, eval=TRUE, cache=TRUE>>=
+library("affyPLM")
+par(mar=c(3,3,2,1), mfrow=c(2,1), las=1, tck=-.01, cex.axis=0.9)
+# Raw data intensities
+boxplot(EGEOD4183.affybatch, col='red', main='', ylim=c(2,16))
+# Normalised intensities
+boxplot(exprs(eset.rma), col='blue', ylim=c(2,16))
+@
+%------------------------------------------------------------
+% \clearpage
+%------------------------------------------------------------
+\section{Classification using the nearest shrunken centroid method}
+Gene Expressions patterns (\emph{signatures}) of the contrast between adenoma and healthy biopsy samples were determined using the nearest 
+shrunken centroid classification algorithm (PAM). 
+
+Using the \cc{pamr} package between adenoma and healthy biopsy samples, 20 classifiers were identified
+(sensitivity:100\%, specificity: 100\%). See Table~\ref{avsn} for the identified classifiers.
+
+<<eval=TRUE, cache=TRUE, results=FALSE, message=FALSE>>=
+x.avsn <-  exprs(eset.rma)[ , c(grep("adenoma", pData(eset.rma)$"Description"),grep("healthy", pData(eset.rma)$"Description"))]
+mydata.avsn <- list( x=x.avsn, 
+	y=factor(c(rep("adenoma", length(grep("adenoma", pData(eset.rma)$"Description"))), rep("normal", length(grep("healthy", pData(eset.rma)$"Description"))))), 
+genenames=featureNames(eset.rma), 
+geneid=featureNames(eset.rma) )
+library("pamr")
+set.seed(123) # for reproducibility
+mytrain.avsn <- pamr.train(mydata.avsn)
+mycv.avsn <- pamr.cv(mytrain.avsn, mydata.avsn)
+pamr.confusion(mycv.avsn,threshold=6.8)
+pdf("pamr_centroids_adenoma_vs_normal.pdf", width=15)
+pamr.plotcen(mytrain.avsn, mydata.avsn, threshold=6.8)
+dev.off()
+avsn.signature <- data.frame(pamr.listgenes(mytrain.avsn, mydata.avsn, threshold=6.8, genenames=T))
+write.table(avsn.signature, file="adenomavsnormal_signature_pam.txt",sep="\t", quote=F, row.names=F)
+@
+\begin{table}[h]
+  \caption{Classificatory genes identified by pam - adenoma vs normal}\label{avsn}
+<<tab1, message=FALSE, results='asis', echo=FALSE>>= 
+library("xtable")
+tab1 <- xtable(avsn.signature)
+print(tab1, floating=FALSE, include.rownames=FALSE)
+@
+\end{table}
+%------------------------------------------------------------
+\clearpage
+%------------------------------------------------------------
+Normal and CRC biopsy samples could be distinguished using 15 discriminatory genes (sensitivity:86\%, specificity: 100\%).
+See Table~\ref{crcvsn} for the identified classifiers.
+
+<<eval=TRUE, cache=TRUE, results=FALSE, message=FALSE>>=
+x.crcvsn <- exprs(eset.rma)[ , c(grep("colorectal cancer", pData(eset.rma)$"Description"),grep("healthy", pData(eset.rma)$"Description"))]
+mydata.crcvsn <- list( x=x.crcvsn, 
+	y=factor(c(rep("CRC", length(grep("colorectal cancer", pData(eset.rma)$"Description"))), rep("normal", length(grep("healthy", pData(eset.rma)$"Description"))))), 
+	genenames=featureNames(eset.rma), 
+	geneid=featureNames(eset.rma) )
+set.seed(123)
+mytrain.crcvsn <- pamr.train(mydata.crcvsn)
+mycv.crcvsn <- pamr.cv(mytrain.crcvsn, mydata.crcvsn)
+pamr.confusion(mycv.crcvsn,threshold=4.45)
+pdf("pamr_centroids_CRC_vs_normal.pdf", width=15)
+pamr.plotcen(mytrain.crcvsn, mydata.crcvsn, threshold=4.45)
+dev.off()
+crcvsn.signature <- data.frame(pamr.listgenes(mytrain.crcvsn, mydata.crcvsn, threshold=4.45, genenames=T))
+write.table(crcvsn.signature, file="crcvsnormal_signature_pam.txt",sep="\t", quote=F, row.names=F)
+@
+
+\begin{table}[h!]
+  \caption{Classificatory genes identified by pam - normal vs colorectal cancer}\label{crcvsn}
+<<tab2, message=FALSE, results='asis', echo=FALSE>>= 
+library("xtable")
+tab2 <- xtable(crcvsn.signature)
+print(tab2, floating=FALSE, include.rownames=FALSE)
+@
+\end{table}
+%------------------------------------------------------------
+\clearpage
+%------------------------------------------------------------
+\section{Conclusion and Discussion}
+
+Following the incomplete information depicted in the paper we were capable of reproducing
+only part of the original results.
+We think that the main reasons for this outcome are:
+\begin{itemize}
+\item No source code for the analyses was included
+\item The versions of the different packages were not specified
+\item The exact parameters selected for the analyses were not reported
+\end{itemize}
+This case study has achieved two aims:
+\begin{itemize}
+\item Depicting a basic pipeline for the analysis of high-throughput biological data following the principle of the Reproducible Research
+\item Showing a basic selection of common mistakes that can make the replication of a published work difficult
+\end{itemize}
+%------------------------------------------------------------
+% \clearpage
+%------------------------------------------------------------
+% sessionInfo
+%------------------------------------------------------------
+\section*{R Version information}
+<<sessionInfo, eval=TRUE, results='asis', echo=FALSE>>=
+toLatex(sessionInfo())
+@
+%------------------------------------------------------------
+\bibliographystyle{abbrv}
+\bibliography{bibliography}
+%------------------------------------------------------------
+\end{document}
