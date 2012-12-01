@@ -2,8 +2,8 @@ Overview of repository
 ===
 This repository includes the files related to the Talk I held on November 30th 2012 in Lodi at the 2012 Italian Bio R Day:
 
-* [Slides](https://github.com/onertipaday/ItalianBioRDay2012/Slides)
-* [Case Study](https://github.com/onertipaday/ItalianBioRDay2012/CaseStudy)
+* [Slides](https://github.com/onertipaday/ItalianBioRDay2012/tree/master/Slides)
+* [Case Study](https://github.com/onertipaday/ItalianBioRDay2012/tree/master/CaseStudy)
 
 Abstract of talk
 ===
