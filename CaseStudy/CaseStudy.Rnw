@@ -42,8 +42,7 @@ library("xtable") # tables
 \textbf{Findings:} We decided to replicate the Class Prediction Analysis depicted in the manuscript. The authors taking advantage of the nearest shrunken centroid method (PAM) \cite{pamr} wanted to identify the gene expressions patterns (\emph{signatures}) of the contrasts \emph{adenoma vs normal biopsy samples} and \emph{colorectal cancer (CRC) vs normal biopsy samples}.
 On the basis of the information contained in the manuscript's Material and Methods, we were not capable to reproduce the \emph{exact} original results.
 
-\textbf{Conclusions:} This document combines the Literate Programming paradigm and the power of R and Bioconductor in providing an example of
-Reproducible Research in the analysis of high-throughput biological data.
+\textbf{Conclusions:} This document combines the Literate Programming paradigm and the power of R and Bioconductor in providing an example of Reproducible Research in the analysis of high-throughput biological data.
 
 \end{abstract}
 
@@ -63,9 +62,11 @@ We focused our attention on the classification tasks and, following the original
 \section{Loading microarray data into Bioconductor}
 The data used in this example can be downloaded from the ArrayExpress database and imported into R using the \cc{ArrayExpress} package by typing:
 
-<<eval=TRUE, hide=FALSE, cache=TRUE, message=FALSE>>=
+<<eval=TRUE, cache=TRUE, message=FALSE>>=
 library("ArrayExpress")
 EGEOD4183.affybatch = ArrayExpress(accession = "E-GEOD-4183", save=TRUE)
+fns <- list.celfiles(path="../../DATA/",full.names=TRUE)
+EGEOD4183.affybatch <- read.affyBatch(fns)
 @
 
 \noindent A brief description of the \cc{EGEOD4183.affybatch} object can be obtained by using the 
@@ -86,6 +87,11 @@ EGEOD4183.affybatch = ArrayExpress(accession = "E-GEOD-4183", save=TRUE)
 \noindent If the Affymetrix microarray data sets have been downloaded into a single directory, 
 then the \cc{.cel} files can be loaded into R using the \cc{ReadAffy} command.
 
+<<eval=FALSE, message=FALSE>>=
+library("affy")
+fns <- list.celfiles(path=".",full.names=TRUE)
+EGEOD4183.affybatch <- read.affybatch(fns)
+@
 %------------------------------------------------------------
 \section{Pre-processing}
 
@@ -107,7 +113,7 @@ Following the Material and Methods of the original paper we used the GeneChip RM
 
 <<eval=TRUE, cache=TRUE, results=FALSE, message=FALSE>>=
 library("gcrma")
-eset.rma = gcrma(EGEOD4183.affybatch)
+eset.rma = rma(EGEOD4183.affybatch)
 @
 
 \noindent The aim of the normalisation is to make the distribution of probe intensities for each array in a set of arrays the same. 
@@ -129,9 +135,9 @@ Gene Expressions patterns (\emph{signatures}) of the contrast between adenoma an
 shrunken centroid classification algorithm (PAM). 
 
 Using the \cc{pamr} package between adenoma and healthy biopsy samples, 20 classifiers were identified
-(sensitivity:100\%, specificity: 100\%). See Table~\ref{avsn} for the identified classifiers.
+(sensitivity:100\%, specificity: 100\%). See Table~\ref{avsn} and Fig~\ref{fig:plotcen01} for the identified classifiers.
 
-<<eval=TRUE, cache=TRUE, results=FALSE, message=FALSE>>=
+<<eval=TRUE, hide=TRUE, cache=TRUE, results=FALSE, message=FALSE>>=
 x.avsn <-  exprs(eset.rma)[ , c(grep("adenoma", pData(eset.rma)$"Description"),grep("healthy", pData(eset.rma)$"Description"))]
 mydata.avsn <- list( x=x.avsn, 
 	y=factor(c(rep("adenoma", length(grep("adenoma", pData(eset.rma)$"Description"))), rep("normal", length(grep("healthy", pData(eset.rma)$"Description"))))), 
@@ -142,17 +148,32 @@ set.seed(123) # for reproducibility
 mytrain.avsn <- pamr.train(mydata.avsn)
 mycv.avsn <- pamr.cv(mytrain.avsn, mydata.avsn)
 pamr.confusion(mycv.avsn,threshold=6.8)
-pdf("pamr_centroids_adenoma_vs_normal.pdf", width=15)
-pamr.plotcen(mytrain.avsn, mydata.avsn, threshold=6.8)
-dev.off()
 avsn.signature <- data.frame(pamr.listgenes(mytrain.avsn, mydata.avsn, threshold=6.8, genenames=T))
-write.table(avsn.signature, file="adenomavsnormal_signature_pam.txt",sep="\t", quote=F, row.names=F)
+library('hgu133plus2.db') # chip annotations
+mp.entrez <- mappedkeys(hgu133plus2ENTREZID)
+mp.entrez.lst <- as.list(hgu133plus2ENTREZID[mp.entrez])
+mp.symbol <- mappedkeys(hgu133plus2SYMBOL)
+mp.symbol.lst <- as.list(hgu133plus2SYMBOL[mp.symbol])
+avsn.df <- data.frame(Affymetrix_id= as.character(avsn.signature$id), 
+ENTREZID=unlist(mp.entrez.lst)[as.character(avsn.signature$id)], 
+SYMBOL=unlist(mp.symbol.lst)[as.character(avsn.signature$id)], avsn.signature[,3:4] )
+write.table(avsn.df, file="adenomavsnormal_signature_pam.txt",sep="\t", quote=F, row.names=F)
 @
-\begin{table}[h]
+
+\begin{figure}[hp]
+\centering
+<<plotcen01, eval=TRUE, cache=TRUE>>=
+pamr.plotcen(mytrain.avsn, mydata.avsn, threshold=6.8)
+@
+\caption{Centroids of the \Sexpr{dim(avsn.df)[[1]]} features in the contras: adenoma vs normal}
+\label{fig:plotcen01}
+\end{figure}
+
+\begin{table}[h!]
   \caption{Classificatory genes identified by pam - adenoma vs normal}\label{avsn}
 <<tab1, message=FALSE, results='asis', echo=FALSE>>= 
 library("xtable")
-tab1 <- xtable(avsn.signature)
+tab1 <- xtable(avsn.df)
 print(tab1, floating=FALSE, include.rownames=FALSE)
 @
 \end{table}
@@ -160,9 +181,9 @@ print(tab1, floating=FALSE, include.rownames=FALSE)
 \clearpage
 %------------------------------------------------------------
 Normal and CRC biopsy samples could be distinguished using 15 discriminatory genes (sensitivity:86\%, specificity: 100\%).
-See Table~\ref{crcvsn} for the identified classifiers.
+See Table~\ref{crcvsn} and Fig~\ref{fig:plotcen02} for the identified classifiers.
 
-<<eval=TRUE, cache=TRUE, results=FALSE, message=FALSE>>=
+<<eval=TRUE, cache=TRUE, results=FALSE, include=TRUE, message=FALSE>>=
 x.crcvsn <- exprs(eset.rma)[ , c(grep("colorectal cancer", pData(eset.rma)$"Description"),grep("healthy", pData(eset.rma)$"Description"))]
 mydata.crcvsn <- list( x=x.crcvsn, 
 	y=factor(c(rep("CRC", length(grep("colorectal cancer", pData(eset.rma)$"Description"))), rep("normal", length(grep("healthy", pData(eset.rma)$"Description"))))), 
@@ -172,18 +193,27 @@ set.seed(123)
 mytrain.crcvsn <- pamr.train(mydata.crcvsn)
 mycv.crcvsn <- pamr.cv(mytrain.crcvsn, mydata.crcvsn)
 pamr.confusion(mycv.crcvsn,threshold=4.45)
-pdf("pamr_centroids_CRC_vs_normal.pdf", width=15)
-pamr.plotcen(mytrain.crcvsn, mydata.crcvsn, threshold=4.45)
-dev.off()
 crcvsn.signature <- data.frame(pamr.listgenes(mytrain.crcvsn, mydata.crcvsn, threshold=4.45, genenames=T))
-write.table(crcvsn.signature, file="crcvsnormal_signature_pam.txt",sep="\t", quote=F, row.names=F)
+crcvsn.df <- data.frame(Affymetrix_id= as.character(crcvsn.signature$id), 
+ENTREZID=unlist(mp.entrez.lst)[as.character(crcvsn.signature$id)], 
+SYMBOL=unlist(mp.symbol.lst)[as.character(crcvsn.signature$id)], crcvsn.signature[,3:4] )
+write.table(crcvsn.df, file="crcvsnormal_signature_pam.txt",sep="\t", quote=F, row.names=F)
 @
+
+\begin{figure}[hp]
+\centering
+<<plotcen02, eval=TRUE, cache=TRUE>>=
+pamr.plotcen(mytrain.crcvsn, mydata.crcvsn, threshold=4.45)
+@
+\caption{Centroids of the \Sexpr{dim(crcvsn.df)[[1]]} features in the contras: normal vs colorectal cancer}
+\label{fig:plotcen02}
+\end{figure}
 
 \begin{table}[h!]
   \caption{Classificatory genes identified by pam - normal vs colorectal cancer}\label{crcvsn}
 <<tab2, message=FALSE, results='asis', echo=FALSE>>= 
 library("xtable")
-tab2 <- xtable(crcvsn.signature)
+tab2 <- xtable(crcvsn.df)
 print(tab2, floating=FALSE, include.rownames=FALSE)
 @
 \end{table}
@@ -194,7 +224,7 @@ print(tab2, floating=FALSE, include.rownames=FALSE)
 
 Following the incomplete information depicted in the paper we were capable of reproducing
 only part of the original results.
-We think that the main reasons for this outcome are:
+We think that the main reasons of this outcome are:
 \begin{itemize}
 \item No source code for the analyses was included
 \item The versions of the different packages were not specified
