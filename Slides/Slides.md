@@ -142,13 +142,13 @@ print(rnorm(50))
 
 
 ```
-##  [1]  0.37455  0.26448  0.11821  0.25493  0.66274  1.22757 -1.83224 -1.41128
-##  [9]  0.30672  0.79322 -1.17644  0.86704  0.53878 -0.27332  1.43887 -0.29149
-## [17]  0.78745  0.56054 -0.15015  0.63875 -1.77446  1.05768  2.04004  0.39984
-## [25] -0.75676 -0.95623  1.45970  1.40448 -0.59392 -0.39692  0.24093 -0.19675
-## [33]  1.16757 -0.17791 -0.69001  3.54292  0.77806 -0.38563  0.17216  0.84204
-## [41]  1.73025  0.45344 -0.19087  0.24172 -0.15962  0.03867 -2.04133  0.15311
-## [49] -1.05571 -0.32733
+##  [1] -1.02809  0.58519  0.47856 -1.15948  0.35598 -0.19351 -1.13424  0.63789
+##  [9]  1.69889 -1.11168  1.01274 -1.86981 -0.03253 -1.23849  0.65434  0.51970
+## [17] -0.17844  0.15562 -0.31640  0.73339  1.58082  0.28131 -0.49190 -0.53323
+## [25] -0.64260  0.06578 -1.07761  0.88227 -0.33908 -0.29489  0.65853  0.49415
+## [33]  0.91659 -0.20477 -0.33838  1.67765 -0.70644 -0.55799 -0.26238 -0.19877
+## [41] -0.49096 -1.33861 -0.39981  0.41306  0.01421 -0.53587  0.48340  2.28866
+## [49] -1.33952 -1.84252
 ```
 
 
@@ -185,13 +185,13 @@ It allows the insertion of R chunks in a markdown file as well as Sweave allows 
 
 
 ```
-##  [1]  1.16065  0.37597 -0.80841  0.42764  0.25866  0.33264 -1.74833 -0.98599
-##  [9]  1.23975  0.21318  1.16210 -1.94610  0.97251  0.30657  1.90265  0.13068
-## [17]  0.08775 -1.99787 -1.20159  1.53788  0.37576 -0.49226 -0.91396  1.02579
-## [25] -0.48610  1.28597  0.36403 -0.35805 -1.18346  0.90558  0.65471  1.33404
-## [33] -0.18939  0.30535 -1.46421  0.12731  0.82822 -0.16294 -0.61968  0.15297
-## [41]  0.10214 -0.07084 -1.95884  1.91617 -0.46115 -1.99758  0.15627  0.67087
-## [49]  0.28523 -1.97344
+##  [1]  0.47135  0.33137  1.12405 -1.93464  0.49882 -0.40663  1.70079  1.95296
+##  [9]  0.28356  0.46559 -1.60801 -0.51435 -1.14396  1.38524  1.41066 -0.51923
+## [17]  0.01728 -1.15363  1.05206 -1.38199 -0.47508  1.18964 -0.35563 -0.41657
+## [25] -0.70746  1.41704 -0.65796 -0.11216  0.67053 -0.11592  0.49551 -0.17050
+## [33]  0.36816  0.06961 -0.32033 -0.60880 -0.72954 -0.60811 -0.02811  1.25004
+## [41] -0.35045  1.64920  1.58694 -0.05738  0.68935 -0.03911  0.94360  1.18036
+## [49]  0.45375 -0.04956
 ```
 
 * It requires the _knitr_ package for producing a markdown document which can be converted into _html, pdf, etc_.
@@ -244,8 +244,6 @@ Versioning and Version Control Systems
 
 Subversion exists to be universally recognized and adopted as an open-source, centralized version control system characterized by its reliability as a safe haven for valuable data; the simplicity of its model and usage; and its ability to support the needs of a wide variety of users and projects, from individuals to large-scale enterprise operations.
 
-![](images/r-forge.png)
-
 svn "Hello World"
 ===
     svnadmin create SVNrep
@@ -287,7 +285,7 @@ R and Bioconductor
 <img src="figure/wordcloud.png" width="400px" height="400px"  alt="" title="" /> 
 
 
-Bioconductor
+Bioconductor [^4]
 ===
 * Bioconductor is an open source project to provide tools for the analysis and comprehension of high-throughput genomic data, based primarily on the R programming language.
 * The broad goals of the Bioconductor project are:
@@ -296,6 +294,8 @@ Bioconductor
     * To provide a common software platform that enables the rapid development and deployment of extensible, scalable, and interoperable software.
     * To further scientific understanding by producing high-quality documentation and reproducible research.
     * To train researchers on computational and statistical methods for the analysis of genomic data.
+
+[^4]: [Bioconductor web site](bioconductor.org)
 
 Why Bioconductor is the way to follow for Reproducible Research
 ===
@@ -318,7 +318,7 @@ Summary
 * Use a Version Control System for recording your source code changes
 * Create pipelines producing documents including both the analysis and the working code (_Literate Programming_)
 * Use Bioconductor and include the version of your packages and the session info in the document
-* One last thing:
+* One more thing:
     * The Bioconductor team has developed an Amazon Machine Image ([AMI](http://www.bioconductor.org/help/bioconductor-cloud-ami/)) that is optimized for running Bioconductor in the Amazon Elastic Compute Cloud (or EC2) for sequencing tasks.
     * storing data, code, packages in a frozen Virtual Machine allows the complete reproducibility of your analysis and make easy to share the results
 
@@ -351,8 +351,8 @@ Case Study - Conclusion
 Slides and Example
 ===
 These slides and the Case Study were performed using the package knitr for converting either the RMarkdown into Markdown (slides) or Sweave markup to pdf (case study), pandoc to generate the html5 from Markdown.
-The case study is available at [https://github.com/onertipaday/ItalianBioRDay2012/CaseStudy](https://github.com/onertipaday/ItalianBioRDay2012/CaseStudy).
-The slides are available at [https://github.com/onertipaday/ItalianBioRDay2012/Slides](https://github.com/onertipaday/ItalianBioRDay2012/Slides)  
+The case study is available at [https://github.com/onertipaday/ItalianBioRDay2012/CaseStudy](https://github.com/onertipaday/ItalianBioRDay2012/tree/master/CaseStudy).
+The slides are available at [https://github.com/onertipaday/ItalianBioRDay2012/Slides](https://github.com/onertipaday/ItalianBioRDay2012/tree/master/Slides)  
 and can be replicated from R by typing (package [knitr](http://yihui.name/knitr/) should be installed in your R distribution and [pandoc](http://johnmacfarlane.net/pandoc/) available on your system):
 
 

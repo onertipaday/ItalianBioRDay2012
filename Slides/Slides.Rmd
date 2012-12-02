@@ -283,7 +283,7 @@ Bioconductor [^4]
     * To further scientific understanding by producing high-quality documentation and reproducible research.
     * To train researchers on computational and statistical methods for the analysis of genomic data.
 
-[^3]: [Bioconductor web site](bioconductor.org)
+[^4]: [Bioconductor web site](bioconductor.org)
 
 Why Bioconductor is the way to follow for Reproducible Research
 ===
@@ -339,8 +339,8 @@ Case Study - Conclusion
 Slides and Example
 ===
 These slides and the Case Study were performed using the package knitr for converting either the RMarkdown into Markdown (slides) or Sweave markup to pdf (case study), pandoc to generate the html5 from Markdown.
-The case study is available at [https://github.com/onertipaday/ItalianBioRDay2012/CaseStudy](https://github.com/onertipaday/ItalianBioRDay2012/CaseStudy).
-The slides are available at [https://github.com/onertipaday/ItalianBioRDay2012/Slides](https://github.com/onertipaday/ItalianBioRDay2012/Slides)  
+The case study is available at [https://github.com/onertipaday/ItalianBioRDay2012/CaseStudy](https://github.com/onertipaday/ItalianBioRDay2012/tree/master/CaseStudy).
+The slides are available at [https://github.com/onertipaday/ItalianBioRDay2012/Slides](https://github.com/onertipaday/ItalianBioRDay2012/tree/master/Slides)  
 and can be replicated from R by typing (package [knitr](http://yihui.name/knitr/) should be installed in your R distribution and [pandoc](http://johnmacfarlane.net/pandoc/) available on your system):
 
 ```{r Slides, eval=FALSE, echo=TRUE, tidy=TRUE}
