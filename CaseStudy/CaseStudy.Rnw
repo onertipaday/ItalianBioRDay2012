@@ -64,9 +64,7 @@ The data used in this example can be downloaded from the ArrayExpress database a
 
 <<eval=TRUE, cache=TRUE, message=FALSE>>=
 library("ArrayExpress")
-EGEOD4183.affybatch = ArrayExpress(accession = "E-GEOD-4183", save=TRUE)
-fns <- list.celfiles(path="../../DATA/",full.names=TRUE)
-EGEOD4183.affybatch <- read.affyBatch(fns)
+EGEOD4183.affybatch <- ArrayExpress(accession = "E-GEOD-4183", save=TRUE)
 @
 
 \noindent A brief description of the \cc{EGEOD4183.affybatch} object can be obtained by using the 
@@ -111,7 +109,7 @@ arrayQualityMetrics(expressionset = as(EGEOD4183.affybatch, "ExpressionSet"), ou
 \subsection{Data Normalisation}
 Following the Material and Methods of the original paper we used the GeneChip RMA (GCRMA) with quantile normalisation.
 
-<<eval=TRUE, cache=TRUE, results=FALSE, message=FALSE>>=
+<<eval=TRUE, cache=TRUE, results="hide", message=FALSE>>=
 library("gcrma")
 eset.rma = rma(EGEOD4183.affybatch)
 @
@@ -137,7 +135,7 @@ shrunken centroid classification algorithm (PAM).
 Using the \cc{pamr} package between adenoma and healthy biopsy samples, 20 classifiers were identified
 (sensitivity:100\%, specificity: 100\%). See Table~\ref{avsn} and Fig~\ref{fig:plotcen01} for the identified classifiers.
 
-<<eval=TRUE, hide=TRUE, cache=TRUE, results=FALSE, message=FALSE>>=
+<<eval=TRUE, hide=TRUE, cache=TRUE, results="hide", message=FALSE>>=
 x.avsn <-  exprs(eset.rma)[ , c(grep("adenoma", pData(eset.rma)$"Description"),grep("healthy", pData(eset.rma)$"Description"))]
 mydata.avsn <- list( x=x.avsn, 
 	y=factor(c(rep("adenoma", length(grep("adenoma", pData(eset.rma)$"Description"))), rep("normal", length(grep("healthy", pData(eset.rma)$"Description"))))), 
@@ -183,7 +181,7 @@ print(tab1, floating=FALSE, include.rownames=FALSE)
 Normal and CRC biopsy samples could be distinguished using 15 discriminatory genes (sensitivity:86\%, specificity: 100\%).
 See Table~\ref{crcvsn} and Fig~\ref{fig:plotcen02} for the identified classifiers.
 
-<<eval=TRUE, cache=TRUE, results=FALSE, include=TRUE, message=FALSE>>=
+<<eval=TRUE, cache=TRUE, results="hide", include=TRUE, message=FALSE>>=
 x.crcvsn <- exprs(eset.rma)[ , c(grep("colorectal cancer", pData(eset.rma)$"Description"),grep("healthy", pData(eset.rma)$"Description"))]
 mydata.crcvsn <- list( x=x.crcvsn, 
 	y=factor(c(rep("CRC", length(grep("colorectal cancer", pData(eset.rma)$"Description"))), rep("normal", length(grep("healthy", pData(eset.rma)$"Description"))))), 
