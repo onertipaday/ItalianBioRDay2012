@@ -15,13 +15,13 @@
 ## this is equivalent to \SweaveOpts{}
 opts_chunk$set(fig.path='figure/report-', cache.path='cache/report-', fig.align='center', fig.show='hold', par=TRUE)
 options(replace.assign=TRUE, width=68)
-library("arrayQualityMetrics") # QC
-library("ArrayExpress") # load the data from the internet
-library('hgu133plus2.db') # chip annotations
-library("gcrma")
-library("affyPLM") # boxplots
-library("pamr") # classification
-library("xtable") # tables
+## install and load required packages
+my.pkgs <- c("arrayQualityMetrics", "ArrayExpress","hgu133plus2.db","gcrma","affyPLM", "pamr", "xtable")
+source("http://bioconductor.org/biocLite.R")
+for(i in 1:length(my.pkgs)){
+  if (my.pkgs[[i]] %in% row.names(installed.packages()) == FALSE) install.packages(my.pkgs[[i]], repos=biocinstallRepos()) 
+	require(my.pkgs[[i]], character.only=T)
+}
 @
 %------------------------------------------------------------
 \title{{\Large \bf Reproducible Research in High-Throughput Biology:\\ A Case Study}}
