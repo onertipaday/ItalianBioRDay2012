@@ -129,11 +129,9 @@ boxplot(exprs(eset.rma), col='blue', ylim=c(2,16))
 % \clearpage
 %------------------------------------------------------------
 \section{Classification using the nearest shrunken centroid method}
-Gene Expressions patterns (\emph{signatures}) of the contrast between adenoma and healthy biopsy samples were determined using the nearest 
-shrunken centroid classification algorithm (PAM). 
+Gene Expressions patterns (\emph{signatures}) of the contrast between adenoma and healthy biopsy samples were determined using the nearest shrunken centroid classification algorithm (PAM). 
 
-Using the \cc{pamr} package between adenoma and healthy biopsy samples, 20 classifiers were identified
-(sensitivity:100\%, specificity: 100\%). See Table~\ref{avsn} and Fig~\ref{fig:plotcen01} for the identified classifiers.
+\subsection{Adenoma vs Normal}
 
 <<eval=TRUE, hide=TRUE, cache=TRUE, results="hide", message=FALSE>>=
 x.avsn <-  exprs(eset.rma)[ , c(grep("adenoma", pData(eset.rma)$"Description"),grep("healthy", pData(eset.rma)$"Description"))]
@@ -158,6 +156,8 @@ SYMBOL=unlist(mp.symbol.lst)[as.character(avsn.signature$id)], avsn.signature[,3
 write.table(avsn.df, file="adenomavsnormal_signature_pam.txt",sep="\t", quote=F, row.names=F)
 @
 
+Using the \cc{pamr} package between adenoma and healthy biopsy samples, \Sexpr{dim(avsn.df)[[1]]} classifiers were identified (sensitivity:100\%, specificity: 100\%). See Table~\ref{avsn} and Fig~\ref{fig:plotcen01} for the identified classifiers.
+
 \begin{figure}[hp]
 \centering
 <<plotcen01, eval=TRUE, cache=TRUE>>=
@@ -178,8 +178,7 @@ print(tab1, floating=FALSE, include.rownames=FALSE)
 %------------------------------------------------------------
 \clearpage
 %------------------------------------------------------------
-Normal and CRC biopsy samples could be distinguished using 15 discriminatory genes (sensitivity:86\%, specificity: 100\%).
-See Table~\ref{crcvsn} and Fig~\ref{fig:plotcen02} for the identified classifiers.
+\subsection{Normal vs CRC}
 
 <<eval=TRUE, cache=TRUE, results="hide", include=TRUE, message=FALSE>>=
 x.crcvsn <- exprs(eset.rma)[ , c(grep("colorectal cancer", pData(eset.rma)$"Description"),grep("healthy", pData(eset.rma)$"Description"))]
@@ -197,6 +196,9 @@ ENTREZID=unlist(mp.entrez.lst)[as.character(crcvsn.signature$id)],
 SYMBOL=unlist(mp.symbol.lst)[as.character(crcvsn.signature$id)], crcvsn.signature[,3:4] )
 write.table(crcvsn.df, file="crcvsnormal_signature_pam.txt",sep="\t", quote=F, row.names=F)
 @
+
+Normal and CRC biopsy samples could be distinguished using \Sexpr{dim(crcvsn.df)[[1]]} discriminatory genes (sensitivity:86\%, specificity: 100\%).
+See Table~\ref{crcvsn} and Fig~\ref{fig:plotcen02} for the identified classifiers.
 
 \begin{figure}[hp]
 \centering
