@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Paolo Sonego" />
+  <title>Reproducible Research in High-Throughput Biology: A Case Study</title>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+    href="http://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
+  <script src="http://www.w3.org/Talks/Tools/Slidy2/scripts/slidy.js.gz"
+    charset="utf-8" type="text/javascript"></script>
+</head>
+<body>
+<div class="slide titlepage">
+  <h1 class="title">Reproducible Research in High-Throughput Biology: A Case Study</h1>
+  <p class="author">
+<a href="http://onertipaday.blogspot.com">Paolo Sonego</a>
+  </p>
+  <p class="date">November 30th, 2012</p>
+</div>
+<div class="section slide level1" id="overview">
+<h1>Overview</h1>
+<ul class="incremental">
+<li>What is Reproducible Research?</li>
+<li>Why is Reproducible Research important in Scientific Research?</li>
+<li>Tools for Reproducible Research and Literate Programming</li>
+<li>Reproducible Research in the Analysis of High-Throughput Biological Data.</li>
+<li>A Case Study</li>
+</ul>
+</div>
+<div class="section slide level1" id="introduction">
+<h1>Introduction</h1>
+<ul class="incremental">
+<li>Reproducibility in Science</li>
+<li>Reproducible Research</li>
+<li>Literate Programming</li>
+</ul>
+</div>
+<div class="section slide level1" id="what-is-reproducible-research">
+<h1>What is Reproducible Research?</h1>
+<ul class="incremental">
+<li>Reproducible research allows the reader of the article to replicate the entire analysis on his own.</li>
+<li>It use the Literate Programming paradigm (invented by <a href="http://www-cs-faculty.stanford.edu/~knuth/">Donald Knuth</a>) to combine the input data, the source code, the <em>literate</em> description of the adopted procedures and the results (tables, plots, etc.) in a unique document both producing and depicting the analysis.</li>
+<li>As a rule of thumb, we have an article following the Reproducible Research paradigm if the author provide the reader with all the information required for replicating the analysis:
+<ul class="incremental">
+<li>it provides the original (raw) data</li>
+<li>methods and algorithms are properly and fully described</li>
+<li>methods can be reproduced</li>
+<li>the analysis can be extended to independent datasets</li>
+</ul></li>
+</ul>
+</div>
+<div class="section slide level1" id="why-reproducible-research-is-so-important">
+<h1>Why Reproducible Research is so important?</h1>
+<ul class="incremental">
+<li><em>omics</em> studies are spreading the basis for new clinical trials and treatment decisions</li>
+<li>Make your life easier in data analysis daily practice</li>
+</ul>
+</div>
+<div class="section slide level1" id="the-anil-potti-story">
+<h1>The Anil Potti Story</h1>
+<ul class="incremental">
+<li>“Genomic Signatures to Guide the Use of Chemotherapeutics”, Potti et al (2006), <em>Nature Medicine</em>, 12:1294-1300.</li>
+<li>The main conclusion of the paper is that we can use microarray data from cell lines to define drug response <em>signatures</em>, which can be used to predict whether patients will respond.</li>
+<li>Keith Baggerly and Kevin Coombes Bioinformatic Statisticians at MD Anderson Cancer Center contacted Anil Potti to get hold of the source code for the analysis without success.</li>
+<li><p>The two bioinformaticians employed <em>forensic bioinformatics</em> in order to <em>recreate the data by matching public sources to measurements from the printed graphs, and figured out that there were gross data errors in the article: labels transposed, data duplicated, etc. . The conclusions were completely bunk…</em><sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup></p></li>
+<li>All the performed analysis by Baggerly and Coombes were conducted following a state of art Reproducible Research approach (see <a href="http://bioinformatics.mdanderson.org/Supplements/ReproRsch-All/index.html">here</a>) and depicted in “Deriving Chemosensitivity from Cell Lines: Forensic Bioinformatics and Reproducible Research in High-Throughput Biology” by Keith A. Baggerly and Kevin R. Coombes, <em>Annals of Applied Statistics, 2009 3(4):1309-1334</em>.</li>
+<li><p>Further more the two bioinformaticians collected all sort of documents, talk, video about the subject and make them available from <a href="http://bioinformatics.mdanderson.org/Supplements/ReproRsch-All/Modified/StarterSet/index.html">this</a> link.</p></li>
+</ul>
+</div>
+<div class="section slide level1" id="the-anil-potti-story---conclusion-anil-potti-page-on-wikipedia.">
+<h1>The Anil Potti Story - Conclusion <sup><a href="#fn2" class="footnoteRef" id="fnref2">2</a></sup></h1>
+<ul class="incremental">
+<li>Ten high-impact research papers authored by Potti were retracted.</li>
+<li>The American Cancer Society stopped payment of a five-year-grant to Potti<br /> and Duke University was forced to reimbursed the American Cancer Society for the grant.</li>
+<li>Three clinical trials at Duke University Medical Center based on Potti’s research were stopped.</li>
+</ul>
+</div>
+<div class="section slide level1" id="reproducible-research-in-daily-practice-quotes-from-keith-baggerly.">
+<h1>Reproducible Research in daily practice <sup><a href="#fn3" class="footnoteRef" id="fnref3">3</a></sup></h1>
+<ul class="incremental">
+<li>“We have performed some new experiments, can you add them and re-run the analysis you performed X months ago?”</li>
+<li>“Our previous analyst left, can you re-analyze my data with the same methods he used and produce a comprehensible report?”</li>
+<li>“Can you write the methods section for an article based on the analysis you made as service 1 year ago?”</li>
+</ul>
+</div>
+<div class="section slide level1" id="tools-for-reproducible-research-and-literate-programming">
+<h1>Tools for Reproducible Research and Literate Programming</h1>
+<ul class="incremental">
+<li>Editors</li>
+<li>Markup languages and tools</li>
+<li>Versioning</li>
+</ul>
+</div>
+<div class="section slide level1" id="editors-and-ide">
+<h1>Editors and IDE</h1>
+<ul class="incremental">
+<li><a href="http://www.vim.org/about.php">vim</a> with <a href="http://www.vim.org/scripts/script.php?script_id=2628">Vim-R-plugin</a></li>
+<li><a href="http://www.gnu.org/software/emacs/">Emacs</a> with <a href="http://ess.r-project.org/">Emacs Speaks Statistics (ESS)</a></li>
+<li><a href="http://macromates.com/">TextMate</a> with <a href="http://svn.textmate.org/trunk/Bundles/R.tmbundle/">R bundle</a></li>
+<li><a href="http://www.eclipse.org/">Eclipse</a> with <a href="http://www.walware.de/goto/statet">StatET</a> plugin</li>
+<li><a href="http://www.rstudio.com/ide/">RStudio</a></li>
+</ul>
+</div>
+<div class="section slide level1" id="markup-languages-and-tools">
+<h1>Markup languages and tools</h1>
+<ul class="incremental">
+<li>What is a markup Language?
+<ul class="incremental">
+<li>The <em>heart</em> of the Literate Programming paradigm.</li>
+<li>It allows the embedding of both the <em>literate</em> description and the source code.</li>
+<li>It provides instructions to program, invisible to the user, allowing pretty typesetting.</li>
+</ul></li>
+</ul>
+</div>
+<div class="section slide level1" id="tex-and-latex">
+<h1><a href="http://www.latex-project.org/">TeX and LaTeX</a></h1>
+<ul class="incremental">
+<li>A programming language for use in typesetting designed from scratch by Donald Knuth in 1970 for his book <em>The Art of Computer Programming</em>.</li>
+<li>TeX is about format, for document designers, LaTeX is all about content, for document writers.</li>
+<li>In other words, the idea behind LaTeX is to shift the focus from the format to the content of your document.</li>
+<li>Pros:
+<ul class="incremental">
+<li>Very well established and robust</li>
+<li>rich collection of packages (<a href="http://www.ctan.org/">CTAN</a>)</li>
+<li>perfect for research paper, books, thesis, etc.</li>
+<li>well documented</li>
+</ul></li>
+<li>Cons:
+<ul class="incremental">
+<li>steep learning curve</li>
+<li>layout is not always a piece of cake</li>
+<li>debugging can be a pain in the …</li>
+</ul></li>
+</ul>
+</div>
+<div class="section slide level1" id="latex-hello-world">
+<h1>LaTeX “Hello World”</h1>
+<pre><code>\documentclass{article}
+\title{Hello World}
+\author{Paolo Sonego}
+\date{November 2012}
+\begin{document}
+   \maketitle
+   Hello world!
+\end{document}</code></pre>
+</div>
+<div class="section slide level1" id="sweave">
+<h1>Sweave</h1>
+<p>The <em>de facto</em> standard for Reproducible Research in the R environment.</p>
+<ul class="incremental">
+<li>Pros:
+<ul class="incremental">
+<li>embedded in every R-base distribution</li>
+<li><em>Vignettes</em> (documents depicting packages functionalities) are produced using Sweave (code available)</li>
+<li>quite robust</li>
+</ul></li>
+<li>Cons:
+<ul class="incremental">
+<li>stagnant development</li>
+<li>poor documentation and resources compared to alternatives</li>
+</ul></li>
+</ul>
+</div>
+<div class="section slide level1" id="sweave-hello-world">
+<h1>Sweave “Hello World”</h1>
+<p>Take a LaTex source file.</p>
+<p>Change the file extension from <code>.tex</code> to <code>.Rnw.</code></p>
+<p>Insert a chunk of R code you want to execute between <code>&lt;&lt; &gt;&gt;=</code> and a <code>@</code> sign followed by a space:</p>
+<pre><code>&lt;&lt;hello sweave &gt;&gt;=
+print(rnorm(50))
+@</code></pre>
+<pre><code>##  [1] -1.02809  0.58519  0.47856 -1.15948  0.35598 -0.19351 -1.13424  0.63789
+##  [9]  1.69889 -1.11168  1.01274 -1.86981 -0.03253 -1.23849  0.65434  0.51970
+## [17] -0.17844  0.15562 -0.31640  0.73339  1.58082  0.28131 -0.49190 -0.53323
+## [25] -0.64260  0.06578 -1.07761  0.88227 -0.33908 -0.29489  0.65853  0.49415
+## [33]  0.91659 -0.20477 -0.33838  1.67765 -0.70644 -0.55799 -0.26238 -0.19877
+## [41] -0.49096 -1.33861 -0.39981  0.41306  0.01421 -0.53587  0.48340  2.28866
+## [49] -1.33952 -1.84252</code></pre>
+<p>Run <em>Sweave</em> to produce Tex, and <em>Stangle</em> to extract the R code</p>
+<pre><code>R CMD Sweave helloworld.Rnw
+R CMD Stangle helloworld.Rnw
+pdflatex helloworld</code></pre>
+</div>
+<div class="section slide level1" id="markdown">
+<h1>Markdown</h1>
+<ul class="incremental">
+<li>Pros:
+<ul class="incremental">
+<li>you can learn it in few minutes</li>
+<li>you can produce slides, reports, interactive documents in no time</li>
+<li>quickly spreading</li>
+</ul></li>
+<li>Cons:
+<ul class="incremental">
+<li>useful to produce simple documents quickly, not so good with complicated documents such as research paper, books, thesis, etc.</li>
+<li>still in development</li>
+<li>no CTAN</li>
+</ul></li>
+</ul>
+</div>
+<div class="section slide level1" id="markdown-cheat-sheet">
+<h1>Markdown Cheat Sheet</h1>
+<div class="figure">
+<img src="images/markdown_cheatsheet.png" /><p class="caption"></p>
+</div>
+</div>
+<div class="section slide level1" id="r-markdown">
+<h1>R Markdown</h1>
+<p>It allows the insertion of R chunks in a markdown file as well as Sweave allows it in a LaTeX file.</p>
+<blockquote>
+<p>```{r hello_rmarkdown}<br />print(rnorm(50))<br />```</p>
+</blockquote>
+<pre><code>##  [1]  0.47135  0.33137  1.12405 -1.93464  0.49882 -0.40663  1.70079  1.95296
+##  [9]  0.28356  0.46559 -1.60801 -0.51435 -1.14396  1.38524  1.41066 -0.51923
+## [17]  0.01728 -1.15363  1.05206 -1.38199 -0.47508  1.18964 -0.35563 -0.41657
+## [25] -0.70746  1.41704 -0.65796 -0.11216  0.67053 -0.11592  0.49551 -0.17050
+## [33]  0.36816  0.06961 -0.32033 -0.60880 -0.72954 -0.60811 -0.02811  1.25004
+## [41] -0.35045  1.64920  1.58694 -0.05738  0.68935 -0.03911  0.94360  1.18036
+## [49]  0.45375 -0.04956</code></pre>
+<ul class="incremental">
+<li>It requires the <em>knitr</em> package for producing a markdown document which can be converted into <em>html, pdf, etc</em>.</li>
+</ul>
+</div>
+<div class="section slide level1" id="knitr">
+<h1>knitr</h1>
+<ul class="incremental">
+<li>An R package and powerful tool for extending Sweave features:
+<ul class="incremental">
+<li>It allows the use of different markup languages: LaTex, Markdown</li>
+<li>Great output with default settings</li>
+</ul></li>
+<li>Pros:
+<ul class="incremental">
+<li>good default settings</li>
+<li>out-of-the-box caching system that evaluate chached chunks only when necessary</li>
+<li>great ever-growing documentation and collection of examples (see <a href="http://yihui.name/knitr/demos">knitr demo</a>)</li>
+<li>actively developed</li>
+</ul></li>
+<li>Cons:
+<ul class="incremental">
+<li>not included in default R distribution</li>
+<li>markdown integration can be better</li>
+<li>not as robust as Sweave</li>
+</ul></li>
+</ul>
+</div>
+<div class="section slide level1" id="pandoc">
+<h1>pandoc</h1>
+<p>Swiss-army knife for converting a markup document in different formats, few examples:</p>
+<ul class="incremental">
+<li>A pdf file: <code>pandoc -s report.md -t latex -o report.pdf</code></li>
+<li>A html file: <code>pandoc -s report.md -o report.html</code></li>
+<li>LibreOffice: <code>pandoc report.md -o report.odt</code></li>
+<li>Word docx: <code>pandoc report.md -o report.docx</code></li>
+</ul>
+</div>
+<div class="section slide level1" id="versioning-and-version-control-systems">
+<h1>Versioning and Version Control Systems</h1>
+<ul class="incremental">
+<li>What is Versioning?
+<ul class="incremental">
+<li>It is the the process of tracking changes of documents by assigning unique ids (strings or numbers) at different unique stages</li>
+</ul></li>
+<li>What is Revision Control?
+<ul class="incremental">
+<li>A central place to store your code:
+<ul class="incremental">
+<li>Backup and recovery</li>
+<li>A recorded history of code changes</li>
+</ul></li>
+<li>Facilitates collaboration among development team members</li>
+<li>Easy to check out prior code, undo changes, version products</li>
+</ul></li>
+<li>Why I should use a Revision Control?
+<ul class="incremental">
+<li>Collaborate on the same project</li>
+<li>Access to different revision of your code</li>
+<li><strong>Save your day!</strong></li>
+</ul></li>
+</ul>
+</div>
+<div class="section slide level1" id="apache-subversion">
+<h1><a href="http://subversion.apache.org/">Apache Subversion</a></h1>
+<p>“Enterprise-class centralized version control for the masses”</p>
+<p>Subversion exists to be universally recognized and adopted as an open-source, centralized version control system characterized by its reliability as a safe haven for valuable data; the simplicity of its model and usage; and its ability to support the needs of a wide variety of users and projects, from individuals to large-scale enterprise operations.</p>
+</div>
+<div class="section slide level1" id="svn-hello-world">
+<h1>svn “Hello World”</h1>
+<pre><code>svnadmin create SVNrep
+mkdir test
+touch test/test.txt
+svn import test file:///Users/paolo/SVNrep/test ‐m &#39;Initial import&#39;
+rm –r test
+svn checkout file:///Users/paolo/SVNrep/test
+echo &#39;Hello World&#39; &gt; test.txt
+svn status
+svn commit test.txt ‐m&#39;test modified&#39;
+svn update
+svn diff ‐r 1</code></pre>
+</div>
+<div class="section slide level1" id="git">
+<h1>git</h1>
+<ul class="incremental">
+<li>Initially developed by Linus Torvalds for Linux kernel development</li>
+<li>fast</li>
+<li>Social features</li>
+<li>Highly adopted in the R Community</li>
+<li><img src="images/github.png" alt="github" /></li>
+</ul>
+</div>
+<div class="section slide level1" id="reproducible-research-in-high-throughput-biology">
+<h1>Reproducible Research in High-Throughput Biology</h1>
+<ul class="incremental">
+<li>A common generic workflow in Bioinformatics:
+<ul class="incremental">
+<li>get the data</li>
+<li>download the annotations for your data from on-line resources: Ensembl, USCS Genome Browser, etc.</li>
+<li>download and compile the tools for the analysis</li>
+<li>parse the outputs of the different software using custom code written in X different programming languages</li>
+<li>Feed the intermediate results to other on-line web services: Reactome, DAVID, etc.</li>
+</ul></li>
+<li>What is wrong?
+<ul class="incremental">
+<li>web resources can be unstable</li>
+<li>bioinformaticians have to store locally the data and software tailored to the particular analysis</li>
+<li>using different paradigms for the analysis (some times is the only choice) is error prone</li>
+</ul></li>
+</ul>
+</div>
+<div class="section slide level1" id="r-and-bioconductor">
+<h1>R and Bioconductor</h1>
+<img src="figure/wordcloud.png" width="400px" height="400px"  alt="" title="" />
+</div>
+<div class="section slide level1" id="bioconductor-bioconductor-web-site">
+<h1>Bioconductor <sup><a href="#fn4" class="footnoteRef" id="fnref4">4</a></sup></h1>
+<ul class="incremental">
+<li>Bioconductor is an open source project to provide tools for the analysis and comprehension of high-throughput genomic data, based primarily on the R programming language.</li>
+<li>The broad goals of the Bioconductor project are:
+<ul class="incremental">
+<li>To provide widespread access to a broad range of powerful statistical and graphical methods for the analysis of genomic data.</li>
+<li>To facilitate the inclusion of biological metadata in the analysis of genomic data, e.g. literature data from PubMed, annotation data from Entrez genes.</li>
+<li>To provide a common software platform that enables the rapid development and deployment of extensible, scalable, and interoperable software.</li>
+<li>To further scientific understanding by producing high-quality documentation and reproducible research.</li>
+<li>To train researchers on computational and statistical methods for the analysis of genomic data.</li>
+</ul></li>
+</ul>
+</div>
+<div class="section slide level1" id="why-bioconductor-is-the-way-to-follow-for-reproducible-research">
+<h1>Why Bioconductor is the way to follow for Reproducible Research</h1>
+<ul class="incremental">
+<li>Same programming environment with tools operating and cooperating between them in coherent ways</li>
+<li>easy way to organize projects and create pipelines</li>
+<li>Reproducible Research through Literate Programming out-of-the-box</li>
+<li>Bioconductor repository stores all the past versions of analytical and annotation packages</li>
+<li>For example:
+<ul class="incremental">
+<li>analysis with Human RNA-Seq data or Affymetrix Human Genome U133 Plus 2.0 Array</li>
+<li>download/install/load the transcript annotation data for RNA-seq <code>library(&quot;TxDb.Hsapiens.UCSC.hg19.knownGene&quot;)</code><br /> or for the specific Affymetrix chip <code>library('hgu133plus2.db')</code></li>
+<li>use <code>sessionInfo()</code> to record the state of all my packages and my session</li>
+</ul></li>
+<li>Later (months, years), you need to repeat the analysis:
+<ul class="incremental">
+<li>get the recorded <code>sessionInfo()</code> for the original analysis</li>
+<li>get the original R-version and bioconductor packages from the repositories</li>
+<li>reproduce the analysis</li>
+</ul></li>
+</ul>
+</div>
+<div class="section slide level1" id="summary">
+<h1>Summary</h1>
+<ul class="incremental">
+<li>Use a Version Control System for recording your source code changes</li>
+<li>Create pipelines producing documents including both the analysis and the working code (<em>Literate Programming</em>)</li>
+<li>Use Bioconductor and include the version of your packages and the session info in the document</li>
+<li>One more thing:
+<ul class="incremental">
+<li>The Bioconductor team has developed an Amazon Machine Image (<a href="http://www.bioconductor.org/help/bioconductor-cloud-ami/">AMI</a>) that is optimized for running Bioconductor in the Amazon Elastic Compute Cloud (or EC2) for sequencing tasks.</li>
+<li>storing data, code, packages in a frozen Virtual Machine allows the complete reproducibility of your analysis and make easy to share the results</li>
+</ul></li>
+</ul>
+</div>
+<div class="section slide level1" id="case-study">
+<h1>Case Study</h1>
+<p><em>“Reversal of gene expression changes in the colorectal normal-adenoma pathway by NS398 selective COX2 inhibitor, O Galamb et al., <em>British Journal of Cancer</em> (2010) 102, 765–773”</em></p>
+<ul class="incremental">
+<li><strong>Aim of the paper:</strong><br />The aims of this study were to analyse the gene expression modulating effect of NS398 selective COX2 inhibitor on the HT29 colon adenocarcinoma cell line and to correlate this effect to the modulation in gene expression observed during normal-adenoma and normal-CRC transition when biopsy samples were analysed.</li>
+<li><strong>Aim of the our analysis:</strong>
+<ul class="incremental">
+<li>Showing a basic workflow for the analysis of high-throughput data which follows the Reproducible Research approach.</li>
+<li>Verifying whether, following the materials and methods depicted in the manuscript, we were capable of reproduce some of the analysis depicted in the manuscript or not.</li>
+</ul></li>
+</ul>
+</div>
+<div class="section slide level1" id="case-study---conclusion">
+<h1>Case Study - Conclusion</h1>
+<ul class="incremental">
+<li>We selected to replicate the Class Prediction analysis depicted in the manuscript: The authors taking advantage of the nearest shrunken centroid method (PAM) <sup><a href="#fn5" class="footnoteRef" id="fnref5">5</a></sup> wanted to identify the gene expressions patterns (signatures) of the contrasts adenoma vs normal biopsy samples and colorectal cancer (CRC) vs normal biopsy samples.</li>
+<li>The results of our analysis were different from the manuscript (they matched them only partially).</li>
+<li>Why this analysis can be replicated exactly?
+<ul class="incremental">
+<li>No source code for the analyses was included;</li>
+<li>The versions of the different packages were not specified;</li>
+<li>The exact parameters selected for the analysis were not reported.</li>
+</ul></li>
+</ul>
+</div>
+<div class="section slide level1" id="slides-and-example">
+<h1>Slides and Example</h1>
+<p>These slides and the Case Study were performed using the package knitr for converting either the RMarkdown into Markdown (slides) or Sweave markup to pdf (case study), pandoc to generate the html5 from Markdown. The case study is available at <a href="https://github.com/onertipaday/ItalianBioRDay2012/tree/master/CaseStudy">https://github.com/onertipaday/ItalianBioRDay2012/CaseStudy</a>. The slides are available at <a href="https://github.com/onertipaday/ItalianBioRDay2012/tree/master/Slides">https://github.com/onertipaday/ItalianBioRDay2012/Slides</a><br />and can be replicated from R by typing (package <a href="http://yihui.name/knitr/">knitr</a> should be installed in your R distribution and <a href="http://johnmacfarlane.net/pandoc/">pandoc</a> available on your system):</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(<span class="st">&quot;knitr&quot;</span>)
+<span class="kw">knit</span>(<span class="st">&quot;Slides.Rmd&quot;</span>)
+<span class="kw">system</span>(<span class="st">&quot;pandoc -s -S -i -t slidy --mathjax Slides.md -o Slides.html&quot;</span>)
+<span class="kw">browseURL</span>(<span class="st">&quot;Slides.html&quot;</span>)</code></pre>
+</div>
+<div class="section slide level1" id="r-session-info">
+<h1>R Session-Info</h1>
+<p>It is always a good practice to include the session info:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">sessionInfo</span>(), <span class="dt">locale =</span> <span class="ot">FALSE</span>)</code></pre>
+<pre><code>## R version 2.15.2 (2012-10-26)
+## Platform: x86_64-apple-darwin9.8.0/x86_64 (64-bit)
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+## [1] wordcloud_2.2      RColorBrewer_1.0-5 Rcpp_0.10.0        tm_0.5-7.1        
+## [5] XML_3.95-0.1       knitr_0.8          dataframe_2.5      colorout_0.9-9    
+## 
+## loaded via a namespace (and not attached):
+## [1] digest_0.5.2   evaluate_0.4.2 formatR_0.6    plyr_1.7.1     slam_0.1-26   
+## [6] stringr_0.6.1  tools_2.15.2</code></pre>
+</div>
+<div class="section slide level1" id="acknowledgements">
+<h1>Acknowledgements</h1>
+<p>I wish to thank Dr. <a href="http://yihui.name/">Yihui Xie</a> for developing the <a href="http://yihui.name/knitr/">knitr</a> package, I used for producing both the slides and the example, and Dr. Vince Buffalo for the inspiring <a href="http://vincebuffalo.org/2012/03/08/the-beauty-of-bioconductor.html">The Beauty of Bioconductor</a> blog post.</p>
+</div>
+<div class="section slide level1" id="contacts">
+<h1>Contacts</h1>
+<p>Paolo Sonego</p>
+<p><strong>email:</strong> <a href="paolo.sonego@gmail.com">paolo.sonego@gmail.com</a></p>
+<p><strong>blog:</strong> <a href="http://onertipaday.blogspot.com">onertipaday.blogspot.com</a></p>
+<p><strong>twitter:</strong> <a href="http://www.twitter.com/onertipaday">@onertipaday</a></p>
+<p><strong>github:</strong> <a href="https://github.com/onertipaday">onertipaday</a></p>
+</div>
+<div class="footnotes slide">
+<hr />
+<ol>
+<li id="fn1"><p><a href="http://blog.revolutionanalytics.com/2011/07/nyt-on-the-importance-of-reproducible-research.html">NYT on the importance of reproducible research</a>.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p><a href="http://en.wikipedia.org/wiki/Anil_Potti">Anil Potti page on Wikipedia</a>.<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>quotes from <a href="http://faculty.mdanderson.org/Keith_Baggerly/">Keith Baggerly</a>.<a href="#fnref3">↩</a></p></li>
+<li id="fn4"><p><a href="bioconductor.org">Bioconductor web site</a><a href="#fnref4">↩</a></p></li>
+<li id="fn5"><p>T. Hastie, R. Tibshirani, Balasubramanian Narasimhan and Gil Chu (2011).<br /><a href="http://CRAN.R-project.org/package=pamr">pamr</a>: Pam: prediction analysis for microarrays. R package version 1.54.<a href="#fnref5">↩</a></p></li>
+</ol>
+</div>
+</body>
+</html>
