@@ -11,7 +11,7 @@
 %------------------------------------------------------------
 \begin{document}
 
-<<setup, include=TRUE, cache=FALSE, echo=FALSE, message=FALSE>>=
+<<setup, include=TRUE, cache=FALSE, echo=FALSE, warning=FALSE, message=FALSE>>=
 ## this is equivalent to \SweaveOpts{}
 opts_chunk$set(fig.path='figure/report-', cache.path='cache/report-', fig.align='center', fig.show='hold', par=TRUE)
 options(replace.assign=TRUE, width=68)
@@ -100,7 +100,7 @@ a mandatory step in every data analysis.
 The following code create a directory \cc{aQM} depicting all kind of Quality Control Metrics and
 a table highlighting bad quality experiments.
 
-<<eval=TRUE, cache=TRUE, results=FALSE, message=FALSE>>=
+<<eval=FALSE, message=FALSE>>=
 library("arrayQualityMetrics")
 arrayQualityMetrics(expressionset = as(EGEOD4183.affybatch, "ExpressionSet"), outdir = "aQM", force = TRUE)
 @
