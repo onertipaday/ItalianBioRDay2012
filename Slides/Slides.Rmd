@@ -2,8 +2,6 @@
 % [Paolo Sonego](http://onertipaday.blogspot.com)
 % November 30th, 2012
 
-`ro dev="png", fig.cap="", cache=FALSE, error=TRUE, warning=FALSE, out.width="400px", out.height="400px", fig.width=5, fig.height=5, fig.align='center', dpi=96 or`
-
 ```{r setup, include=FALSE}
 # set global chunk options
 opts_chunk$set(cache=TRUE)
@@ -207,7 +205,6 @@ Swiss-army knife for converting a markup document in different formats, few exam
 * LibreOffice: `pandoc report.md -o report.odt`
 * Word docx: `pandoc report.md -o report.docx`
 
-
 Versioning and Version Control Systems
 ===
 * What is Versioning?
@@ -227,23 +224,19 @@ Versioning and Version Control Systems
 
 [Apache Subversion ](http://subversion.apache.org/)
 ===
-"Enterprise-class centralized version control for the masses"
-
-Subversion exists to be universally recognized and adopted as an open-source, centralized version control system characterized by its reliability as a safe haven for valuable data; the simplicity of its model and usage; and its ability to support the needs of a wide variety of users and projects, from individuals to large-scale enterprise operations.
-
 svn "Hello World"
 ===
     svnadmin create SVNrep
     mkdir test
     touch test/test.txt
-    svn import test file:///Users/paolo/SVNrep/test ‐m 'Initial import'
-    rm –r test
+    svn import test file:///Users/paolo/SVNrep/test -m 'Initial import'
+    rm -r test
     svn checkout file:///Users/paolo/SVNrep/test
     echo 'Hello World' > test.txt
     svn status
-    svn commit test.txt ‐m'test modified'
+    svn commit test.txt -m'test modified'
     svn update
-    svn diff ‐r 1
+    svn diff -r 1
 
 git
 ===
