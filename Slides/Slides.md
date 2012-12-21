@@ -5,8 +5,6 @@
 
 
 
-
-
 Overview
 ===
 * What is Reproducible Research?
@@ -142,13 +140,14 @@ print(rnorm(50))
 
 
 ```
-##  [1] -1.02809  0.58519  0.47856 -1.15948  0.35598 -0.19351 -1.13424  0.63789
-##  [9]  1.69889 -1.11168  1.01274 -1.86981 -0.03253 -1.23849  0.65434  0.51970
-## [17] -0.17844  0.15562 -0.31640  0.73339  1.58082  0.28131 -0.49190 -0.53323
-## [25] -0.64260  0.06578 -1.07761  0.88227 -0.33908 -0.29489  0.65853  0.49415
-## [33]  0.91659 -0.20477 -0.33838  1.67765 -0.70644 -0.55799 -0.26238 -0.19877
-## [41] -0.49096 -1.33861 -0.39981  0.41306  0.01421 -0.53587  0.48340  2.28866
-## [49] -1.33952 -1.84252
+##  [1]  0.535520  0.830543 -0.903051  1.207243 -0.007142  1.310480 -0.711778
+##  [8] -0.622400 -0.654702 -1.169151  0.308331 -0.501801 -0.050628  0.224989
+## [15]  1.966761  1.558557 -0.032266  0.318230  0.789083 -0.103319  0.233918
+## [22]  2.647386 -0.070678 -1.589646  1.170446  1.609095  0.073611 -0.379740
+## [29]  0.741001 -1.430312 -2.201823 -0.712592  0.565384 -1.025496 -1.761808
+## [36] -0.958281  1.599089 -1.063962  0.570327  0.239216 -1.471671  0.518729
+## [43]  0.934087  0.044458  0.060404  0.160970 -0.460714 -0.664965  0.025760
+## [50]  0.337131
 ```
 
 
@@ -185,13 +184,13 @@ It allows the insertion of R chunks in a markdown file as well as Sweave allows 
 
 
 ```
-##  [1]  0.47135  0.33137  1.12405 -1.93464  0.49882 -0.40663  1.70079  1.95296
-##  [9]  0.28356  0.46559 -1.60801 -0.51435 -1.14396  1.38524  1.41066 -0.51923
-## [17]  0.01728 -1.15363  1.05206 -1.38199 -0.47508  1.18964 -0.35563 -0.41657
-## [25] -0.70746  1.41704 -0.65796 -0.11216  0.67053 -0.11592  0.49551 -0.17050
-## [33]  0.36816  0.06961 -0.32033 -0.60880 -0.72954 -0.60811 -0.02811  1.25004
-## [41] -0.35045  1.64920  1.58694 -0.05738  0.68935 -0.03911  0.94360  1.18036
-## [49]  0.45375 -0.04956
+##  [1]  0.29899 -0.73179 -0.18237 -2.43265  0.63047 -0.41323 -0.42363  0.98994
+##  [9] -0.57765 -2.67126 -0.88173  0.84127 -1.66892  0.15773 -0.49826  0.03408
+## [17] -0.89731  0.76293  1.09942 -0.92767  0.32277  0.47449  0.19555 -0.01236
+## [25]  0.74541 -0.88406 -1.58327 -0.82209  0.19218  0.52843  0.90459  0.38861
+## [33]  1.45505 -0.51024  0.27927  0.73321  1.28556 -0.15523  0.14268 -0.51907
+## [41]  1.67677 -0.14674  0.16817 -1.43520  0.28177  0.61835  0.86733  0.87507
+## [49] -1.15283 -0.55869
 ```
 
 * It requires the _knitr_ package for producing a markdown document which can be converted into _html, pdf, etc_.
@@ -220,7 +219,6 @@ Swiss-army knife for converting a markup document in different formats, few exam
 * LibreOffice: `pandoc report.md -o report.odt`
 * Word docx: `pandoc report.md -o report.docx`
 
-
 Versioning and Version Control Systems
 ===
 * What is Versioning?
@@ -240,23 +238,19 @@ Versioning and Version Control Systems
 
 [Apache Subversion ](http://subversion.apache.org/)
 ===
-"Enterprise-class centralized version control for the masses"
-
-Subversion exists to be universally recognized and adopted as an open-source, centralized version control system characterized by its reliability as a safe haven for valuable data; the simplicity of its model and usage; and its ability to support the needs of a wide variety of users and projects, from individuals to large-scale enterprise operations.
-
 svn "Hello World"
 ===
     svnadmin create SVNrep
     mkdir test
     touch test/test.txt
-    svn import test file:///Users/paolo/SVNrep/test ‐m 'Initial import'
-    rm –r test
+    svn import test file:///Users/paolo/SVNrep/test -m 'Initial import'
+    rm -r test
     svn checkout file:///Users/paolo/SVNrep/test
     echo 'Hello World' > test.txt
     svn status
-    svn commit test.txt ‐m'test modified'
+    svn commit test.txt -m'test modified'
     svn update
-    svn diff ‐r 1
+    svn diff -r 1
 
 git
 ===
@@ -282,7 +276,7 @@ Reproducible Research in High-Throughput Biology
 
 R and Bioconductor
 ===
-<img src="figure/wordcloud.png" width="400px" height="400px"  alt="" title="" /> 
+![plot of chunk wordcloud](figure/wordcloud.png) 
 
 
 Bioconductor [^4]
@@ -381,12 +375,12 @@ print(sessionInfo(), locale = FALSE)
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] wordcloud_2.2      RColorBrewer_1.0-5 Rcpp_0.10.0        tm_0.5-7.1        
-## [5] XML_3.95-0.1       knitr_0.8          dataframe_2.5      colorout_0.9-9    
+## [1] wordcloud_2.2      RColorBrewer_1.0-5 Rcpp_0.10.1        tm_0.5-8          
+## [5] XML_3.95-0.1       knitr_0.9          dataframe_2.5      colorout_0.9-9    
 ## 
 ## loaded via a namespace (and not attached):
-## [1] digest_0.5.2   evaluate_0.4.2 formatR_0.6    plyr_1.7.1     slam_0.1-26   
-## [6] stringr_0.6.1  tools_2.15.2
+## [1] digest_0.6.0   evaluate_0.4.3 formatR_0.7    slam_0.1-26    stringr_0.6.2 
+## [6] tools_2.15.2
 ```
 
 
