@@ -11,8 +11,8 @@ Reproducible Research in High-Throughput Biology: A Case Study
 
 The talk presents an introduction to Reproducible Research in the Analysis of High-Throughput data for Biology. It depicts a Case Study produced completely in R taking advantage of the [knitr](http://yihui.name/knitr/) package for the Literate Programming and various [Bioconductor](http://www.bioconductor.org/) packages for the proper analysis.
 
-Paolo Sonego has spent the last four years as a bioinformatician analyzing _omics_ data for a company in Trieste, Italy.
-He has been using R for the last 9 years and occasionally blogs about the power of R at [onertipaday.blogspot.com](onertipaday.blogspot.com)
+Paolo Sonego has spent the last six years as a bioinformatician analyzing _omics_ data. 
+He has been using R for the last 10 years and occasionally blogs about the power of R at [onertipaday.blogspot.com](onertipaday.blogspot.com)
 
 **License**   
 This work is licensed under the Creative Commons Attribution-NonCommercial-Share Alike 3.0 License.
